@@ -1,0 +1,10 @@
+
+---
+- hosts: '{{ hostip }}'
+  gather_facts: False
+  become: yes
+
+  tasks:
+
+    - name: 'Set Bond BR0'
+      template: src=roles/ansible-set-ip/templates/bond_br.sh.j2 dest=/tmp/bond_br.sh owner=root group=root mode=0644

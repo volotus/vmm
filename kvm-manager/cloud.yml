@@ -1,0 +1,13 @@
+---
+- hosts: '{{ zone }}'
+  gather_facts: False
+  become: yes
+
+  roles:
+    - ansible-kvm
+
+#centos79_2c4g   centos79_2c8g  
+#centos79_4c16g  centos79_4c8g
+#centos79_8c16g  centos79_8c32g
+#
+#/usr/bin/ansible-playbook cloud.yml  -e "zone= image_name=centos79  instance_device=eth0 instance_ip=192.168.1.10 instance_netmask=255.255.0.0  instance_gateway=10.10.100.1  instance_name=t1"

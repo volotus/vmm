@@ -1,0 +1,32 @@
+#!/bin/bash
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:$PATH
+echo "begin--"`date`
+
+#now_time="`date +%Y%m%d%H%M`"
+now_time="`date +%Y%m%d%H`"
+rsync_ip={{ dst_ip }}
+
+# Get list of active virtual machines
+function list_domains() {
+   virsh list | grep running | awk '{ print $2}'
+}
+
+#for xml backup
+function xml_backup() {
+    rsync -av  /etc/libvirt/qemu/*.xml  ${rsync_ip}::xml/
+}
+
+#for instance qcow file backup
+function qcow_backup() {
+    list_domains | while read vmName; do
+    blklist=$(virsh domblklist "$vmName" | awk 'NR>=3{if($2 != "-" && NF>=1) print $2}')
+    xml_file=/etc/libvirt/qemu/$vmName.xml
+    backupdir="${vmName}_${now_time}"
+    export RSYNC_PASSWORD=ZmOkIm8A0
+    rsync -av  $xml_file $blklist  syncuser@${rsync_ip}::backup/$backupdir/
+    done
+}
+
+qcow_backup
+
+echo "end--"`date`

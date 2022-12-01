@@ -1,0 +1,6 @@
+---
+- name: undefine the kvm demo
+  shell: virsh undefine {{ image_name }}
+  ignore_errors: yes
+  tags: undefine
+

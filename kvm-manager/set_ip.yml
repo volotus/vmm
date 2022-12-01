@@ -1,0 +1,8 @@
+---
+- hosts: '{{ hostip }}'
+  gather_facts: False
+  become: yes
+
+  roles:
+    - ansible-set-ip
+

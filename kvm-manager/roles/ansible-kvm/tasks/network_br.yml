@@ -1,0 +1,38 @@
+# configure kvm/qemu
+
+- name: Configure network bridge on private interface
+  lineinfile:
+    dest: /etc/sysconfig/network-scripts/ifcfg-{{ private_if }}
+    line: "{{ item.line }}"
+    state: "{{ item.state }}"
+  with_items:
+    - { line: "NM_CONTROLLED=no", state: "present" }
+    - { line: "BRIDGE=br0", state: "present" }
+  register: private_if_script_1
+
+- name: Remove network lines from private interface script
+  lineinfile:
+    dest: /etc/sysconfig/network-scripts/ifcfg-{{ private_if }}
+    regexp: "{{ item }}"
+    state: absent
+  with_items:
+    - "^BOOTPROTO=.*$"
+    - "^IPADDR=.*$"
+    - "^NETMASK=.*$"
+    - "^GATEWAY=.*$"
+  register: private_if_script_2
+
+- name: Create network bridge script
+  template:
+    src: ../templates/ifcfg-br0.j2
+    dest: /etc/sysconfig/network-scripts/ifcfg-br0
+    owner: root
+    group: root
+    mode: 0644
+  register: bridge_if_script
+
+
+#- name: Restart network
+#  service: name=network state=restarted
+#  when: private_if_script_1.changed or private_if_script_2.changed or bridge_if_script.changed
+

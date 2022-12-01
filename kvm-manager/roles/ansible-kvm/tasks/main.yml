@@ -1,0 +1,15 @@
+---
+# tasks file for ansible-role-kvm-host
+
+- include: define.yml
+
+- include: clone.yml
+
+- include: set_ip_file.yml
+
+- include: start.yml
+
+- include: autostart.yml
+
+- include: undefine.yml
+

@@ -1,0 +1,28 @@
+---
+- hosts: '{{ zone }}'
+  gather_facts: False
+  become: yes
+  vars:
+    instance_volume: '/data/vm-images/'
+
+  tasks:
+
+  - name: 'destroy the kvm  {{ instance_name }}'
+    shell: virsh destroy {{ instance_name }}
+    ignore_errors: yes
+
+  - name: 'undefine the kvm  {{ instance_name }}'
+    shell: virsh undefine {{ instance_name }}
+    ignore_errors: yes
+  
+  - name: 'rm the kvm qcow {{ instance_name }}.qcow2'
+    shell: mv  {{ instance_volume }}/{{ instance_name }}.qcow2  {{ instance_volume }}/{{ instance_name }}.qcow2.del
+    ignore_errors: yes
+
+#  - name: 'rm the kvm qcow {{ instance_name }}.qcow2'
+#    file:
+#      path: {{ instance_volume }}/{{ instance_name }}.qcow2
+#      state: absent
+
+
+##/usr/bin/ansible-playbook qcow_del.yml -v  -e "zone=192.168.0.4  instance_name=t1"

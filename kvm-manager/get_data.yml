@@ -1,0 +1,23 @@
+---
+#ansible-playbook get_data.yml -i hosts -e 'hostip=wxcloud'
+
+- hosts: '{{ hostip }}'
+  gather_facts: False
+  become: yes
+  vars:
+    tmplog: /tmp/node_info
+
+  tasks:
+    - name: Touch inventory file
+      shell:  touch {{ tmplog }} && echo '' > {{ tmplog }}
+      connection: local
+
+    - name: for scripts 
+      script: files/mcloud_vm_info.sh
+      register: result
+
+    - name: Print inventory file
+      local_action: lineinfile line={{ result.stdout_lines | to_nice_json }} dest={{ tmplog }}
+
+
+

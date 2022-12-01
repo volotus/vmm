@@ -1,0 +1,7 @@
+---
+- name: NetworkManager stop&disable
+  service:
+    name: NetworkManager
+    state: stopped
+    enabled: no
+  ignore_errors: True

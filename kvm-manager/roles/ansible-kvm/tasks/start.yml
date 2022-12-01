@@ -1,0 +1,5 @@
+---
+
+- name: 'start the instance {{ instance_name }}'
+  command: virsh start {{ instance_name }}
+  tags: start

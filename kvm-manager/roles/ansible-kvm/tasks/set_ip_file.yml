@@ -1,0 +1,15 @@
+---
+- name: Ensure set ip file  dir exists
+  file: path={{ init_dst_volume }} state=directory
+  ignore_errors: yes
+
+- name: create the file set_ip.sh
+  template: src={{ init_src_file }} dest={{ init_dst_file }}
+  tags: file
+  ignore_errors: yes
+
+- name: copy in the  file set_ip.sh
+  command: virt-copy-in -d {{ instance_name }} {{ init_dst_file }} /opt/  
+  tags: file_copy_in
+  ignore_errors: yes
+

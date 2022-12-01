@@ -1,0 +1,14 @@
+---
+- name: Install KVM required  packages
+  yum: 
+    name: ['qemu-kvm','libvirt','virt-install','bridge-utils','virt-clone','libguestfs-tools','rsync','screen','wget']
+    state: present
+
+# yum -y install kvm  qemu-kvm libvirt python-virtinst bridge-utils virt-clone libguestfs-tools
+
+- name: Start libvirtd service
+  service:
+    name: libvirtd
+    state: started
+    enabled: yes
+

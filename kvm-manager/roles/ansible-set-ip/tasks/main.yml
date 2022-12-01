@@ -1,0 +1,16 @@
+---
+- name: 'Set IPADDR {{ instance_ip }} in ifcfg-{{ instance_device }}'
+  template: src=ifcfg-eth.j2 dest=/etc/sysconfig/network-scripts/ifcfg-{{ instance_device }} owner=root group=root mode=0644
+
+
+- name: Set default route
+  lineinfile:
+    path: /etc/sysconfig/network
+    regexp: ^GATEWAY
+    line: "GATEWAY={{ instance_gateway }}"
+    create: yes
+    state: present
+  when: instance_gateway is defined
+
+- name: 'Restart networking service'
+  service: name=network state=restarted

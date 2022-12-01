@@ -1,0 +1,6 @@
+---
+- name: define the kvm demo
+  shell: virsh define {{ xml_file }}
+  ignore_errors: yes
+  tags: define
+

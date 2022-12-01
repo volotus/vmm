@@ -1,0 +1,5 @@
+---
+
+- name: 'autostart the instance {{ instance_name }}'
+  command: virsh autostart {{ instance_name }}
+  tags: autostart

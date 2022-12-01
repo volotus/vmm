@@ -1,0 +1,18 @@
+#Bare Metal Server，BMS
+
+[all:vars]
+ansible_ssh_port=22
+
+
+[cloud]
+10.5.8.1 hostname=dx-cloud-1  br0_ip=10.5.8.1  ipmi_ip=10.5.8.8 dst_ip=10.2.1 hour=8
+
+[cloud:vars]
+instance_device=eth0
+br0_netmask=255.255.255.192 
+br0_gateway=10.5.2.1
+instance_netmask=255.255.255.192  
+instance_gateway=10.5.2.1
+ipmi_channel=1
+ipmi_netmask=255.255.255.192
+ipmi_gateway=10.5.2.5

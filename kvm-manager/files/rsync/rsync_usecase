@@ -1,0 +1,33 @@
+#rsync -av --exclude='path1/to/exclude' source destination
+
+# chmod 600 /etc/rsyncd.secrets
+# rsync -av --password-file=/etc/rsyncd.secrets /tmp/www syncuser@10.10.0.70::data
+
+ /etc/init.d/rsync restart
+
+
+
+在客户端，使用 --password-file=/etc/rsyncd.secrets 参数，在 /etc/rsyncd.secrets 中写入密码.
+cat /etc/rsyncd.secrets
+ZmOkIm8A0zz
+
+在上述 /etc/rsyncd.secrets 密码文件中，用户或用户组必须和实际使用者保持一致，且权限必须是 600, chmod 600 /etc/rsyncd.secrets。
+
+例：
+# rsync -av --password-file=/etc/rsyncd.secrets /tmp/www syncuser@10.10.0.70::data
+
+
+/usr/bin/rsync -avz -P   10.10.10.154::xcloud/centos76.qcow2 .
+
+/usr/bin/rsync -avz -P  --partial-dir=/tmp/ 10.10.10.154::xcloud/centos76.qcow2 .
+
+
+/usr/bin/rsync -vrtop -P --partial-dir=temp  centos76.qcow2.del 10.10.10.154::qcow
+
+
+--exclude=".*"
+起作用，并且排除隐藏的文件和目录。
+
+如果只想排除隐藏目录：
+
+--exclude ".*/"

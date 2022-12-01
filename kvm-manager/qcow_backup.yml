@@ -1,0 +1,35 @@
+---
+
+- hosts: '{{ hostip }}'
+  gather_facts: False
+  become: yes
+  tasks:
+
+  - name: for tools
+    synchronize: src=files/tools/ dest=/cloud/tools/ delete=yes
+    tags: file
+
+  - name: for  rsyncd
+    copy: src=files/rsync/rsync  dest=/etc/init.d/rsync    mode=0755
+    tags: rsyncd
+
+  - name: for  rsyncd secrets
+    copy: src=files/rsync/rsyncd.secrets  dest=/etc/rsyncd.secrets    mode=0600
+    tags: rsyncd
+
+  - name: for  rsyncd conf
+    copy: src=files/rsync/rsyncd.conf  dest=/etc/rsyncd.conf    mode=0644
+    tags: rsyncd
+
+  - name: restart  rsyncd 
+    shell:  /etc/init.d/rsync restart
+    tags: restart
+
+  - name: allvm_backup_auto
+    template: src=files/tools/allvm_backup.sh.j2 dest=/cloud/allvm_backup_auto.sh   mode=0755
+    tags: backup
+
+  - name: for qcow_backup.sh
+    cron: name="backup the instance"  minute="1" hour="{{ hour }}" weekday="2,5" job="/bin/bash /cloud/allvm_backup_auto.sh 1>>/data/backup/backup_vm.log 2>>/data/backup/backup_vm.err" 
+    tags: cron
+

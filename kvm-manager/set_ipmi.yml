@@ -1,0 +1,9 @@
+---
+- hosts: '{{ hostip }}'
+  gather_facts: False
+  become: yes
+
+  tasks:
+
+  - include_tasks: tasks/ipmi.yml
+

@@ -1,0 +1,10 @@
+cloud_dir: /cloud/vm-images
+image_name: "{{ image_name }}"
+xml_file: "{{ cloud_dir }}/{{ image_name }}.xml"
+
+instance_name: '{{ instance_name }}'
+instance_volume: '/data/vm-images'
+
+init_src_file: set_ip.sh.j2
+init_dst_volume: "/tmp/{{ instance_name }}"
+init_dst_file: "{{init_dst_volume}}/set_ip.sh"

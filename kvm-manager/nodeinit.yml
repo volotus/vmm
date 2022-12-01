@@ -1,0 +1,29 @@
+---
+- hosts: '{{ hostip }}'
+  gather_facts: False
+  become: yes
+
+  tasks:
+
+  - include_tasks: roles/ansible-kvm/tasks/vt.yml
+  - include_tasks: roles/ansible-kvm/tasks/pkg.yml
+
+  - name: Ensure vm images dir exists
+    file: path=/cloud/vm-images state=directory
+    tags: volume
+
+  - name: Ensure vm images dir exists
+    file: path=/data/vm-images state=directory
+    tags: volume
+
+  - name: Ensure vm images dir exists
+    file: path=/data/backup state=directory
+    tags: volume
+
+  - name: for xcloud xml qcow
+    copy: src=files/tools/  dest=/cloud/tools/    mode=0700
+    tags: file
+
+  - name: for vmm
+    copy: src=files/vmm dest=/usr/sbin/vmm    mode=0755
+    tags: vmm

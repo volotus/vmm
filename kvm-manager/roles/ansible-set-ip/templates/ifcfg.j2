@@ -1,0 +1,9 @@
+DEVICE={{ instance_device }}
+ONBOOT=yes
+BOOTPROTO=static
+IPADDR={{ instance_ip }}
+NETMASK={{ instance_netmask }}
+{% if instance_gateway is defined %}
+GATEWAY={{ instance_gateway }}
+{% else %}
+{% endif %}

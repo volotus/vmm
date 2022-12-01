@@ -1,0 +1,11 @@
+---
+
+- name: Ensure vm images dir exists
+  file: path={{ instance_volume }} state=directory
+  tags: volume
+
+- name: clone the instance
+  command: virt-clone -o {{ image_name }} -n {{ instance_name }}  -f {{ instance_volume }}/{{ instance_name }}.qcow2
+  tags: clone
+
+

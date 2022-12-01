@@ -1,0 +1,8 @@
+
+#deploy
+1. ansible-playbook nodeinit.yml -i hosts -e 'hostip='
+2. bridge
+3.
+
+/usr/bin/ansible Zone2 -b -m setup  --tree ~/ecs_facts/Zone2/
+cat 218.1.1.1 |python -m json.tool|less

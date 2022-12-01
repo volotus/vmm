@@ -1,0 +1,63 @@
+---
+# tasks file for ipmitool
+#
+
+# Lan
+- name: Update network settings ipmi
+  command: ipmitool lan set 1 access on
+  tags: ipmi_ip,lan
+
+# Set New IP
+- name: Add static ipaddr
+  command: ipmitool lan set {{ ipmi_channel }} ipsrc static
+  tags: ipmi_ip
+
+- name: Add static ipaddr
+  command: ipmitool lan set {{ ipmi_channel }} ipaddr {{ ipmi_ip }}
+  tags: ipmi_ip
+
+- name: Add static netmask
+  command: ipmitool lan set {{ ipmi_channel }} netmask {{ ipmi_netmask }}
+  tags: ipmi_ip
+
+- name: Add static defgw
+  command: ipmitool lan set {{ ipmi_channel }} defgw ipaddr {{ ipmi_gateway }}
+  tags: ipmi_ip
+
+# Set New Passwd
+- name: Change Passwd
+  command: ipmitool user set password 2 {{ new_pass }}
+  tags: passwd
+
+## Users-operator
+#- name: Create user settings ipmi
+#  command: ipmitool user set name 7 operator
+#  tags: ipmi_user,user
+#
+#- name: Update password user settings ipmi
+#  command: ipmitool user set password 7 xxxx
+#  tags: ipmi_user,user
+#
+#- name: Enable user settings ipmi
+#  command: ipmitool user enable 7
+#  tags: ipmi_user,user
+#
+#- name: Channel setaccess ipmi
+#  command: ipmitool channel setaccess 1 7 callin=on ipmi=on link=on callin=on privilege=4
+#  tags: ipmi_user,user
+#
+#- name: disable root
+#  command: ipmitool user disable 2
+#  tags: ipmi_user,user
+
+#ipmitool lan print 1
+#ipmitool user list 1
+#ipmitool user set name 7 operator
+#ipmitool user set password 7 xxxxxx
+#ipmitool user enable 7
+#ipmitool channel setaccess 1 7 callin=on ipmi=on link=on privilege=4
+#ipmitool user disable 2
+#ipmitool user priv 9 0x4 1
+#
+#ipmitool user priv 10 4 1                            # 本地配置Bmc权限ID_10，权限4[2为User权限、3为Operator权限、4为Administrator权限]，通道1 
+#ipmitool user enable 10                              # 本地启用用户；disable为禁用

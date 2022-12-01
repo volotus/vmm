@@ -1,0 +1,13 @@
+---
+- hosts: '{{ hostip }}'
+  gather_facts: False
+  become: yes
+
+  tasks:
+  - name: for xcloud  qcow
+    copy: src=/opt/cloud/vm-images/centos79.qcow2  dest=/cloud/vm-images/centos79.qcow2    mode=0700
+    tags: qcow
+
+  - name: for xcloud xml 
+    copy: src=/opt/cloud/xml/  dest=/cloud/vm-images/    mode=0700
+    tags: xml
